@@ -1,0 +1,375 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0a0a2a;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Game container */
+.game-container {
+    position: relative;
+    width: calc(100vw - 40px);  /* Full viewport width minus padding */
+    height: calc(100vh - 80px); /* Full viewport height minus padding and controls space */
+    background: linear-gradient(to bottom, #000033, #000066);
+    border-radius: 10px;
+}
+
+/* Canvas sizing */
+#gameCanvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+}
+
+/* HUD (Heads Up Display) */
+.hud {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+    display: flex;
+    gap: 20px;
+}
+
+.score, .lives, .level {
+    position: relative;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+
+/* Controls info */
+.controls-info {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #00ffff;
+    font-size: 14px;
+    z-index: 2;
+}
+/* Game Over screen */
+.game-over {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 33, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.game-over-content {
+    position: relative;
+    background: rgba(0, 0, 66, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Add multiple border layers for game over content */
+.game-over-content::before,
+.game-over-content::after {
+    content: '';
+    position: absolute;
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+/* Inner border */
+.game-over-content::before {
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px solid transparent;
+    animation: gameOverGlow1 3s linear infinite;
+}
+
+/* Outer border */
+.game-over-content::after {
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid transparent;
+    animation: gameOverGlow2 3s linear infinite;
+}
+
+/* Game over text styles */
+.game-over h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #ff00ff;
+}
+
+.game-over p {
+    font-size: 24px;
+    margin: 10px 0;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+#restartButton {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 20px;
+    background: linear-gradient(to bottom, #004466, #002233);
+    color: #fff;
+    border: 2px solid #00ffff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#restartButton:hover {
+    background: linear-gradient(to bottom, #006699, #004466);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+/* First game over border animation */
+@keyframes gameOverGlow1 {
+    0%, 100% {
+        border-color: #ff00ff;
+        box-shadow: 
+            0 0 15px #ff00ff,
+            0 0 25px #ff00ff,
+            inset 0 0 15px #ff00ff;
+    }
+    50% {
+        border-color: #00ffff;
+        box-shadow: 
+            0 0 15px #00ffff,
+            0 0 25px #00ffff,
+            inset 0 0 15px #00ffff;
+    }
+}
+
+/* Second game over border animation */
+@keyframes gameOverGlow2 {
+    0%, 100% {
+        border-color: #00ffff;
+        box-shadow: 
+            0 0 15px #00ffff,
+            0 0 25px #00ffff,
+            inset 0 0 15px #00ffff;
+    }
+    50% {
+        border-color: #ff00ff;
+        box-shadow: 
+            0 0 15px #ff00ff,
+            0 0 25px #ff00ff,
+            inset 0 0 15px #ff00ff;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+/* Three distinct neon borders */
+#gameCanvas::before,
+#gameCanvas::after,
+.game-container::before {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+}
+
+#gameCanvas::before {
+    left: -6px;
+    top: -6px;
+    width: calc(100% + 12px);
+    height: calc(100% + 12px);
+    border: 3px solid transparent;
+    border-radius: 4px;
+    animation: neonColorOne 4s linear infinite;
+}
+
+#gameCanvas::after {
+    left: -12px;
+    top: -12px;
+    width: calc(100% + 24px);
+    height: calc(100% + 24px);
+    border: 3px solid transparent;
+    border-radius: 4px;
+    animation: neonColorTwo 4s linear infinite;
+    animation-delay: -1.33s;
+}
+
+.game-container::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 36px);
+    height: calc(100% + 36px);
+    border: 3px solid transparent;
+    border-radius: 4px;
+    animation: neonColorThree 4s linear infinite;
+    animation-delay: -2.66s;
+    z-index: 1;
+}
+
+/* First neon color animation */
+@keyframes neonColorOne {
+    0%, 100% {
+        border-color: #ff0000;
+        box-shadow: 
+            0 0 10px #ff0000,
+            0 0 20px #ff0000,
+            0 0 30px #ff0000;
+    }
+    33% {
+        border-color: #00ff00;
+        box-shadow: 
+            0 0 10px #00ff00,
+            0 0 20px #00ff00,
+            0 0 30px #00ff00;
+    }
+    66% {
+        border-color: #0000ff;
+        box-shadow: 
+            0 0 10px #0000ff,
+            0 0 20px #0000ff,
+            0 0 30px #0000ff;
+    }
+}
+
+/* Second neon color animation */
+@keyframes neonColorTwo {
+    0%, 100% {
+        border-color: #ff00ff;
+        box-shadow: 
+            0 0 10px #ff00ff,
+            0 0 20px #ff00ff,
+            0 0 30px #ff00ff;
+    }
+    33% {
+        border-color: #00ffff;
+        box-shadow: 
+            0 0 10px #00ffff,
+            0 0 20px #00ffff,
+            0 0 30px #00ffff;
+    }
+    66% {
+        border-color: #ffff00;
+        box-shadow: 
+            0 0 10px #ffff00,
+            0 0 20px #ffff00,
+            0 0 30px #ffff00;
+    }
+}
+
+/* Third neon color animation */
+@keyframes neonColorThree {
+    0%, 100% {
+        border-color: #00ffff;
+        box-shadow: 
+            0 0 10px #00ffff,
+            0 0 20px #00ffff,
+            0 0 30px #00ffff;
+    }
+    33% {
+        border-color: #ff00ff;
+        box-shadow: 
+            0 0 10px #ff00ff,
+            0 0 20px #ff00ff,
+            0 0 30px #ff00ff;
+    }
+    66% {
+        border-color: #ffff00;
+        box-shadow: 
+            0 0 10px #ffff00,
+            0 0 20px #ffff00,
+            0 0 30px #ffff00;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .game-container {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 60px);
+    }
+
+    .hud {
+        gap: 10px;
+    }
+
+    .score, .lives, .level {
+        padding: 8px 16px;
+        font-size: 16px;
+    }
+
+    .controls-info {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+}
+
+/* Mobile portrait adjustments */
+@media (max-width: 480px) {
+    .hud {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .score, .lives, .level {
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+}
+/* Add neon borders to HUD elements */
+.score::before, .lives::before, .level::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    animation: neonColorOne 4s linear infinite;
+}
+
+.score::after, .lives::after, .level::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    animation: neonColorTwo 4s linear infinite;
+    animation-delay: -1.33s;
+}
